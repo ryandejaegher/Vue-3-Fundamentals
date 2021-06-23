@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="shopping-list">
+            <h1 @click="toggleColor" :style="{color: currentColor}">{{header}}</h1>
+            <input @keyup.enter="addItem" type="text" v-model="newItem" placeholder="Add an item" />
+            <strong>Priority</strong>
+
+            <label><input type="checkbox" v-model="newItemHighPriority" /> High Priority</label>
+            {{newItem}} | {{newItemHighPriority}}
+            <button @click="addItem" class="btn" :disabled="newItem.length < 2">Save item</button>
+            <hr />
+            <label><input v-model="iceCreamFlavors" type="checkbox" value="strawberry" />Strawberry</label>
+            <label><input v-model="iceCreamFlavors" type="checkbox" value="chocolate" />Chocolate</label>
+            <label><input v-model="iceCreamFlavors" type="checkbox" value="vanilla" />Vanilla</label>
+            {{iceCreamFlavors}}
+            <ul>
+                <li v-for="{name,id} in items" :key="id">{{name}}</li>
+            </ul>
+        </div>
+
+        <script src="https://unpkg.com/vue@3"></script>
+        <script>
+            var list = [
+                {
+                    id: 1,
+                    name: 'hats'
+                },
+                {
+                    id: 2,
+                    name: 'shoes'
+                },
+                {
+                    id: 3,
+                    name: 'pants'
+                }
+            ];
+            const shoppingListApp = Vue.createApp({
+                data() {
+                    return {
+                        header: 'Shopping List App',
+                        newItem: '',
+                        newItemHighPriority: false,
+                        iceCreamFlavors: [],
+                        items: list,
+                        currentColor: 'red'
+                    };
+                },
+                methods: {
+                    addItem() {
+                        if (this.newItem.length < 2) {
+                            alert('please add more text');
+                            return;
+                        }
+                        this.items.push({ id: this.items.length + 1, name: this.newItem });
+                        this.newItem = '';
+                    },
+                    toggleColor() {
+                        this.currentColor === 'blue' ? (this.currentColor = 'red') : (this.currentColor = 'blue');
+                    }
+                }
+            }).mount('#shopping-list');
+        </script>
+    </body>
+</html>
